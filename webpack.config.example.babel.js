@@ -9,7 +9,21 @@ const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin
 const config = {
   ...baseConfig,
   module: {
-    ...baseConfig.module
+    ...baseConfig.module,
+    // replace style loaders with extract text plugin
+    rules: baseConfig.module.rules.map((rule) =>
+      rule.use
+        .map(({ loader }) => loader)
+        .includes('style-loader')
+        ? ({
+          ...rule,
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: rule.use.filter(({ loader }) => loader !== 'style-loader')
+          })
+        })
+        : rule
+    )
   },
   entry: [
     resolve(__dirname, 'src/app/index.js')
@@ -20,12 +34,10 @@ const config = {
   },
   plugins: [
     ...baseConfig.plugins,
-    new ExtractTextPlugin(
-      {
-        filename: 'styles.css',
-        allChunks: true
-      }
-    ),
+    new ExtractTextPlugin({
+      filename: 'style.css',
+      allChunks: true
+    }),
     new UglifyJsPlugin({
       compress: {
         warnings: false,

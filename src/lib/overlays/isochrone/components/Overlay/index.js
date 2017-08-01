@@ -164,6 +164,9 @@ class Overlay extends PureComponent {
           Percentage of Singapore accessible by public transport within:
           {areas.map(this.renderArea)}
         </div>
+        <div className={classNames.attribution}>
+          Made by <a href='https://swarm.is/'>Swarm</a>
+        </div>
       </div>
     )
   }

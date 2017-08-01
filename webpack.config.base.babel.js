@@ -3,7 +3,7 @@ import webpack from 'webpack'
 
 const config = {
   module: {
-    loaders: [
+    rules: [
       {
         test: /(\.jsx|\.js)$/,
         include: resolve(__dirname, 'src'),
