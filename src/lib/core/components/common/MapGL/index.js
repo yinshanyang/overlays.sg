@@ -20,11 +20,24 @@ class MapGL extends PureComponent {
       zoom,
       minZoom,
       maxZoom,
-      attributionControl: false
+      attributionControl: false,
+      pitch: 42
     })
 
     this.mapElement.dragRotate.disable()
     this.mapElement.touchZoomRotate.disableRotation()
+
+    this.mapElement.on('load', () => {
+      this.mapElement.setLight({
+        anchor: 'viewport',
+        intensity: 0.4,
+        position: [
+          1.5,
+          210,
+          30
+        ]
+      })
+    })
 
     if (fit) this.mapElement.fitBounds(fit, {padding: 10})
 

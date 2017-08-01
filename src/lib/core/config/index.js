@@ -7,7 +7,7 @@ export default {
     minZoom: 10,
     maxZoom: 16,
     bbox: [[103.460999, 1.0834620335045826], [104.208069, 1.6024216765509463]],
-    // mapStyle: 'mapbox://styles/yinshanyang/cj4fqx67g0h1t2spe41e0si37'
-    mapStyle: 'mapbox://styles/mapbox/dark-v9'
+    mapStyle: 'mapbox://styles/yinshanyang/cj5tdyn8z4k6e2slb8834amlb'
+    // mapStyle: 'mapbox://styles/mapbox/dark-v9'
   }
 }

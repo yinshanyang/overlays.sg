@@ -13,19 +13,10 @@ import GeoJSONOverlay from '../../../../core/components/common/GeoJSONOverlay'
 const colors = ['#f0f9e8', '#bae4bc', '#7bccc4', '#2b8cbe']
 // const colors = ['#edf8b1', '#7fcdbb', '#1d91c0', '#0c2c84']
 const configs = {
-  selection: {
-    id: 'selection',
-    type: 'circle',
-    paint: {
-      'circle-color': colors[0],
-      'circle-stroke-width': 1,
-      'circle-stroke-color': '#fff'
-    }
-  },
   contours: {
     id: 'contours',
     before: 'selection',
-    type: 'line',
+    type: 'fill-extrusion',
     // paint: {
     //   'line-color': {
     //     property: 'time',
@@ -75,7 +66,7 @@ const configs = {
     //   }
     // }
     paint: {
-      'line-color': {
+      'fill-extrusion-color': {
         property: 'time',
         stops: [
           [0, colors[0]],
@@ -92,21 +83,11 @@ const configs = {
           [3600, colors[3]]
         ]
       },
-      'line-opacity': {
+      'fill-extrusion-height': {
         property: 'time',
         stops: [
-          [0, 0.2],
-          [899.9, 0.2],
-          [900, 1],
-          [900.1, 0.2],
-          [1799.9, 0.2],
-          [1800, 1],
-          [1800.1, 0.2],
-          [2699.9, 0.2],
-          [2700, 1],
-          [2700.1, 0.2],
-          [3599.9, 0.2],
-          [3600, 1]
+          [0, 36 * 120],
+          [3600, 0]
         ]
       }
     }
@@ -125,12 +106,11 @@ class Overlay extends PureComponent {
   )
 
   render () {
-    const { map, selection, data, areas } = this.props
+    const { map, data, areas } = this.props
     const isEmpty = data.features.length === 0
 
     return (
       <div>
-        <GeoJSONOverlay map={map} data={selection} {...configs.selection} />
         <GeoJSONOverlay map={map} data={data} {...configs.contours} />
         <div className={classNames.geocoder}>
           <Geocoder
