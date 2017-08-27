@@ -1,112 +1,38 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import classNames from './styles.css'
-
-import Geocoder from 'react-geosuggest'
 import GeoJSONOverlay from '../../../../core/components/common/GeoJSONOverlay'
 
-// const colors = ['#008000', '#447100', '#5f5f00', '#714c00', '#803300', '#8b0000']
-// const colors = ['#009b00', '#8c8900', '#c76f00', '#ff3200']
-// const colors = ['#a1dab4', '#41b6c4', '#2c7fb8', '#253494']
-// const colors = ['#bae4bc', '#7bccc4', '#43a2ca', '#0868ac']
-const colors = ['#f0f9e8', '#bae4bc', '#7bccc4', '#2b8cbe']
-// const colors = ['#edf8b1', '#7fcdbb', '#1d91c0', '#0c2c84']
+// green
+// const colors = ['#343332', '#34573c', '#407a55', '#5b9b78', '#81bca0', '#b2dbcd', '#edf8fb']
+
+// green-alt
+// const colors = ['#343332', '#35593d', '#467b4f', '#669e66', '#8fc183', '#c1e1a4', '#ffffcc']
+
+// blue
+const colors = ['#343332', '#424e7a', '#56729a', '#7395af', '#97babe', '#c5ddc7', '#ffffcc']
+
+// purple
+// const colors = ['#343332', '#793766', '#a64d84', '#cb6c9c', '#e692b3', '#f9bcc9', '#feebe2']
+
+// purple-alt
+// const colors = ['#343332', '#6a416e', '#866094', '#9d84b3', '#b4abce', '#cdd1e6', '#edf8fb']
+
 const configs = {
-  selection: {
-    id: 'selection',
-    type: 'circle',
-    paint: {
-      'circle-color': colors[0],
-      'circle-stroke-width': 1,
-      'circle-stroke-color': '#fff'
-    }
-  },
   contours: {
     id: 'contours',
-    before: 'selection',
-    type: 'line',
-    // paint: {
-    //   'line-color': {
-    //     property: 'time',
-    //     stops: [
-    //       [0, colors[0]],
-    //       [599.9, colors[0]],
-    //       [600, colors[0]],
-    //       [600.1, colors[1]],
-    //       [1199.9, colors[1]],
-    //       [1200, colors[1]],
-    //       [1200.1, colors[2]],
-    //       [1799.9, colors[2]],
-    //       [1800, colors[2]],
-    //       [1800.1, colors[3]],
-    //       [2399.9, colors[3]],
-    //       [2400, colors[3]],
-    //       [2400.1, colors[4]],
-    //       [2999.9, colors[4]],
-    //       [3000, colors[4]],
-    //       [3000.1, colors[5]],
-    //       [3599.9, colors[5]],
-    //       [3600, colors[5]]
-    //     ]
-    //   },
-    //   'line-opacity': {
-    //     property: 'time',
-    //     stops: [
-    //       [0, 1],
-    //       [599.9, 0.2],
-    //       [600, 1],
-    //       [600.1, 0.2],
-    //       [1199.9, 0.2],
-    //       [1200, 1],
-    //       [1200.1, 0.2],
-    //       [1799.9, 0.2],
-    //       [1800, 1],
-    //       [1800.1, 0.2],
-    //       [2399.9, 0.2],
-    //       [2400, 1],
-    //       [2400.1, 0.2],
-    //       [2999.9, 0.2],
-    //       [3000, 1],
-    //       [3000.1, 0.2],
-    //       [3599.9, 0.2],
-    //       [3600, 1]
-    //     ]
-    //   }
-    // }
+    before: 'water',
+    type: 'circle',
     paint: {
-      'line-color': {
-        property: 'time',
+      'circle-radius': 4,
+      'circle-color': {
+        property: 'value',
         stops: [
           [0, colors[0]],
-          [899.9, colors[0]],
-          [900, colors[0]],
-          [900.1, colors[1]],
-          [1799.9, colors[1]],
-          [1800, colors[1]],
-          [1800.1, colors[2]],
-          [2699.9, colors[2]],
-          [2700, colors[2]],
-          [2700.1, colors[3]],
-          [3599.9, colors[3]],
-          [3600, colors[3]]
-        ]
-      },
-      'line-opacity': {
-        property: 'time',
-        stops: [
-          [0, 0.2],
-          [899.9, 0.2],
-          [900, 1],
-          [900.1, 0.2],
-          [1799.9, 0.2],
-          [1800, 1],
-          [1800.1, 0.2],
-          [2699.9, 0.2],
-          [2700, 1],
-          [2700.1, 0.2],
-          [3599.9, 0.2],
-          [3600, 1]
+          [0.25, colors[1]],
+          [0.5, colors[2]],
+          [0.75, colors[3]],
+          [1, colors[4]]
         ]
       }
     }
@@ -125,48 +51,21 @@ class Overlay extends PureComponent {
   )
 
   render () {
-    const { map, selection, data, areas } = this.props
-    const isEmpty = data.features.length === 0
+    const { map, data } = this.props
+    // continuous heatmap
+    const max = data.features.map((feature) => feature.properties.value).reduce((a, b) => Math.max(a, b), 0)
+    const stops = colors.map((color, index) => [index / (colors.length - 1) * max, color])
+
+    // threshold heatmap
+    // const max = data.features.map((feature) => feature.properties.value).reduce((a, b) => Math.max(a, b), 0)
+    // data.features.map((feature) => { feature.properties.value = ~~(feature.properties.value / max * colors.length) * max / colors.length })
+    // const stops = colors.map((color, index) => [index * max / colors.length, color])
+
+    configs.contours.paint['circle-color'].stops = stops
 
     return (
       <div>
-        <GeoJSONOverlay map={map} data={selection} {...configs.selection} />
         <GeoJSONOverlay map={map} data={data} {...configs.contours} />
-        <div className={classNames.geocoder}>
-          <Geocoder
-            ref='geocoder'
-            placeholder='Search'
-            initialValue='Raffles Place Singapore'
-            country='sg'
-            autoActivateFirstSuggest
-            onSuggestSelect={this.handleChange}
-          />
-          <button
-            className={[
-              classNames.clear,
-              isEmpty
-                ? classNames.hidden
-                : ''
-            ].join(' ')}
-            onClick={this.handleClear}
-          >
-           ×
-          </button>
-        </div>
-        <div
-          className={[
-            classNames.areas,
-            isEmpty
-              ? classNames.hidden
-              : ''
-          ].join(' ')}
-        >
-          Percentage of Singapore accessible by public transport within:
-          {areas.map(this.renderArea)}
-        </div>
-        <div className={classNames.attribution}>
-          Made by <a href='https://swarm.is/'>Swarm</a>
-        </div>
       </div>
     )
   }

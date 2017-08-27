@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
   onMount: () => {
     dispatch(fetchPoints())
     // FIXME: this is a hack to get the initial load of Raffles MRT
-    dispatch(fetchData(12390))
+    dispatch(fetchData('accessibility'))
   },
   onChange: (point) => dispatch(setSelection(point))
 })
