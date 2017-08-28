@@ -8,7 +8,8 @@ export default {
     maxZoom: 16,
     bbox: [[103.460999, 1.0834620335045826], [104.208069, 1.6024216765509463]],
     // mapStyle: 'mapbox://styles/yinshanyang/cj4fqx67g0h1t2spe41e0si37'
-    mapStyle: 'mapbox://styles/yinshanyang/cj6g4ikbs33v82rmoq0kak4eb' // dark-clean
+    // mapStyle: 'mapbox://styles/yinshanyang/cj6g4ikbs33v82rmoq0kak4eb' // Dark-Clean
+    mapStyle: 'mapbox://styles/yinshanyang/cj6vloip6248d2speg4su1zmv' // Dark-Clean-NoLabels
     // mapStyle: 'mapbox://styles/mapbox/dark-v9'
     // mapStyle: 'mapbox://styles/mapbox/empty-v9'
   }

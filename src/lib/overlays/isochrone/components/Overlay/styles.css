@@ -100,30 +100,6 @@
   line-height: 15px;
 }
 
-  .areas>div {
-    height: 15px;
-    margin-top: 1px;
-  }
-
-  .areas>div:first-child {
-    margin-top: 5px;
-  }
-
-    .areas>div>div {
-      position: relative;
-      width: 80%;
-      float: right;
-      text-align: right;
-      color: #676767;
-    }
-
-      .areas>div>div>div {
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-      }
-
 .attribution {
   bottom: 16px;
   right: 16px;

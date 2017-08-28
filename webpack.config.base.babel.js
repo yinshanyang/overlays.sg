@@ -46,19 +46,6 @@ const config = {
             loader: 'css-loader'
           }
         ]
-      },
-      {
-        test: /(\.json|\.csv)$/,
-        include: resolve(__dirname, 'src'),
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'data/[hash].[ext]',
-              useRelativePath: true
-            }
-          }
-        ]
       }
     ]
   },

@@ -6,7 +6,7 @@ import baseConfig from './webpack.config.base.babel'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import DashboardPlugin from 'webpack-dashboard/plugin'
 
-const host = '0.0.0.0'
+const host = process.env.HOST || '0.0.0.0'
 const port = 9000
 
 const config = {
@@ -30,7 +30,8 @@ const config = {
     stats: 'minimal',
     setup (app) {
       app.use('/data/isochrone/isochrones', express.static(resolve(__dirname, 'src/lib/overlays/isochrone/data/isochrones')))
-    }
+    },
+    disableHostCheck: true
   },
   plugins: [
     ...baseConfig.plugins,
